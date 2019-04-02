@@ -1,22 +1,30 @@
-// this is main.c
-#include<stdio.h>
-#include<stdlib.h>
-#include<time.h>
-#include "screen.h"// for user-defined header, use double quotes
+#include <stdlib.h>		// for random numbers
+#include <time.h>		// for randomization (using system time)
+#include "screen.h"
+#include <stdio.h>
+#include "sound.h"
 
-int main()
-{
-	int arr[80]; // just for making a bar chart
-	srand(time(NULL));// randomize the rand function
-	for(int i=0; i<80;i++)
-	{
-		arr[i]= rand()%70 +30;
+int main(){
+	FILE *f;
+	short sd[80000];
+	for(;;){
+	system(RCMD);
+	f=fopen("test.wav", "r");
+	if(f == NULL){
+		printf("Cannot open the file\n");
+		return 1;
 	}
+
 	clearScreen();
-	setColors(RED, bg(BLUE));
-//	printf("Printed from main.\n");
-	barChart(arr);
+	setColors(RED, bg(YELLOW));
+	struct WAVHDR hdr;
+	fread(&hdr, sizeof(hdr), 1, f);		// read WAV header
+	fread(&sd, sizeof(sd), 1, f);
+	fclose(f);
+	displayWAVHDR(hdr);
+
+	// display WAVHDR();
+	}
 	resetColors();
-	printf("Another message\n");
 	getchar();
 }
