@@ -1,14 +1,17 @@
-#include <stdlib.h>		// for random numbers
+#include <stdlib.h>
+#include <signal.h>		// for random numbers
 #include <time.h>		// for randomization (using system time)
 #include "screen.h"
 #include <stdio.h>
 #include "sound.h"
 
+
 int main(){
 	FILE *f;
 	short sd[80000];
-	for(;;){
-	system(RCMD);
+	while(1){
+	int ret = system(CMD);
+	if(ret == SIGINT) break;
 	f=fopen("test.wav", "r");
 	if(f == NULL){
 		printf("Cannot open the file\n");
@@ -24,6 +27,7 @@ int main(){
 	displayWAVHDR(hdr);
 
 	// display WAVHDR();
+	displayWAVDATA(sd);
 	}
 	resetColors();
 	getchar();
