@@ -1,13 +1,16 @@
 #include <stdio.h>
 #include <math.h>
 #include "sound.h"
+#include "screen.h"
+
 
 // this function takes 1 sec of sample (16000) and caculate
 // 80 pieces of RMS value, and then turn these values
 // into decibels, and display them as a barchart
 void displayWAVDATA(short s[]){
 	double rms[80]; // because of 16000 samples, 16000/80=200
-					// therefore every 200 samples makes one RMS
+	
+	int db[80];				// therefore every 200 samples makes one RMS
 	int i, j;
 	short *ptr = s;		// we use a pointer, pointing to the beginning of array
 	
@@ -19,8 +22,14 @@ void displayWAVDATA(short s[]){
 			ptr++;			// pointing to the next sample
 		}
 		rms[i] = sqrt(sum/200);
+		db[i] = 20*log10(rms[i]);// decibel value
+#ifdef DEBUG				// conditional compilation
 		printf("rms[%d] = %f\n", i, rms[i]);
-	}
+#endif
+	} // end if for
+#ifndef DEBUG
+	barChart(db);
+#endif
 }
 
 void showID(char *name, char *value){
@@ -32,6 +41,7 @@ void showID(char *name, char *value){
 
 //function definition
 void displayWAVHDR(struct WAVHDR h){
+#ifdef DEBUG
 	showID("Chunk ID", h.ChunkID);
 	printf("Chunk size: %d\n", h.ChunkSize);
 	showID("Format", h.Format);
@@ -45,4 +55,16 @@ void displayWAVHDR(struct WAVHDR h){
 	printf("Bits per samle: %d\n", h.BitsPerSample);
 	showID("Subchunk 2 ID", h.Subchunk2ID);
 	printf("Subchunk 2 size: %d\n", h.Subchunk2Size);
+#else
+	setColors(RED, bg(BLUE));
+	printf("\033[1;1H]");
+	printf("test.wav                   \n");
+	setColors(YELLOW, bg(GREEN));
+	printf("\033[1,21H]");
+	printf("Sample rate =%d            \n", h.SampleRate);
+	setColors(WHITE, bg(MAGENTA));
+	printf("\033[1;61H]");
+	printf("Duration = %.2f            \n", (float)h.Subchunk2Size/h.ByteRate);
+	
+#endif
 }

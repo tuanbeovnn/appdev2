@@ -1,7 +1,7 @@
 // constants definition
+//#define DEBUG 
 #define RATE 16000 	// samples per secomnd
-#define DUR 5
-#define CMD "arecord -r16000 -c1 -f S16_LE -d5 -q test.wav"
+#define CMD "arecord -r16000 -c1 -f S16_LE -d1 -q test.wav"
 // data structures
 struct WAVHDR{
 	char ChunkID[4]; // it has to be "RIFF"
@@ -21,6 +21,5 @@ struct WAVHDR{
 	int Subchunk2Size; // 
 };
 // function declarations
-void displayWAVHDR(struct WAVHDR);
-void showID(char *, char *);
+void displayWAVHDR(struct WAVHDR hdr);
 void displayWAVDATA(short[]);
