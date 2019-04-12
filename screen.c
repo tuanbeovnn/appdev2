@@ -1,6 +1,7 @@
 // for operating with screen
 
 #include<stdio.h>
+#include "screen.h"
 void barChart(int a[])
 {
 	int i,j;// counters
@@ -8,8 +9,13 @@ void barChart(int a[])
 	{
 		for(j=0;j<a[i]/3;j++)
 		{
+			
 			printf("\033[%d;%dH",35-j,i+1);
+			#ifdef UNICODE
 			printf("%s","\u2590");
+			#else
+			printf("%c", ' ');
+			#endif
 		}
 	}
 }
