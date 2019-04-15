@@ -17,7 +17,7 @@ int main(int argc, char **argv){
 		testTone(ch, atoi( argv[1]), duration);
 		return 0;
 	}
-	FILE *f;
+	FILE *f;	
 	short sd[RATE]; // for all samples in 1 sec
 	while(1){
 		int ret = system(CMD);
@@ -29,7 +29,7 @@ int main(int argc, char **argv){
 		}
 
 		clearScreen();
-		setColors(RED, bg(BLUE));
+		setColors(GREEN, bg(BLUE));
 		struct WAVHDR hdr; // instance of wav header
 		fread(&hdr, sizeof(hdr), 1, f);		// read WAV header
 		fread(&sd, sizeof(sd), 1, f); // show wav header information
