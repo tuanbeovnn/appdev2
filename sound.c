@@ -119,23 +119,20 @@ void testTone(int c, int f, float d){
 		h.ChunkSize = h.Subchunk2Size +36;
 //	}
 	// prepare sound data
-	short data [441000];//data[d*h.SampleRate];
-	for(int i=0;i<samples;i++){
-		short data = 32767.0*sin(2*PI*i*f/44100);
-		fwrite(&data, sizeof(short),1,fp);
-		if(c==2){
-			short dR = 32767.0*sin(2*PI*i*f/2/44100);
-			fwrite(&dR, sizeof(short), 1, fp);
-		}
-	}
-	
-	FILE *fp = fopen("testTone.wav","w");
-	if(fp == NULL){
-		printf("we cannot open the file \n");
-		return;
-	}
-	fwrite(&h, sizeof(h), 1,fp);// write the header
-	fwrite(data, d*h.SampleRate*sizeof(short),1,fp);
-	fclose(fp);
-	printf("Test tone is generated \n");
+	FILE *fg = fopen("testTone.wav", "w");
+        if(fg == NULL) {
+                printf("we cannot open the file\n");
+                return;
+        }
+        fwrite(&h, sizeof(h), 1, fg);   // write the header
+        for(int i=0; i<d*h.SampleRate; i++) {
+                short data = 32767.0*sin(2*PI*i*f/44100);
+                fwrite(&data, sizeof(short), 1, fg);
+                if(c==2) {
+                        short dR = 32767.0*sin(2*PI*i*f/2/44100);
+                        fwrite(&dR, sizeof(short), 1, fg);
+                }
+        }
+        fclose(fg);
+        printf("test tone is generated\n");
 }

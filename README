@@ -1,1 +1,97 @@
 # this is the first version
+
+This project is to trun a Rasberry PI as an audio device. The device is able to do 2 functions: as a sound collector and as a test-tone
+generator
+
+Table of content
+	1. Configuaration Instructions
+	2. Installation Instructions
+	3. Operating Intructors
+	4. File list(Manifest)
+	5. Copyright/ Copyleft
+	6. Contact Information
+	7. Credits and Acknowledgement
+----------------------------------------------------
+
+The application is running on a Rasberry PI 3 model B.
+This Pi should come with a USB sound card, network connection, a microphone.
+1) Configuaration Instructions
+1.1 Configer USB sound card as default audio device.
+	- In default, the Rasberry PI 3 does not have a sound card, so we need appy the sound card by adding USB sound card.
+	- After adding sound card, we need to check USB sound card which is mounted and use command line as below: lsusb
+	- Use “sudo nano /etc/asound.conf”command and put following content to the file:
+	pcm.!default {
+		type plug
+		slave {
+			pcm "hw:1,0"
+		}
+	}
+	ctl.!default {
+		type hw
+		card 1
+	}
+	- Moreover, using command “nano .asoundrc” command and put the same content to the file.
+	
+	- Run “alsamixer” you should be able to see that USB sound card is the default audio device, and we should use maximum volume of Mic. 
+1.2 How to install libcurl
+	- First of all, we use the command "ls /usr/include/curl" or "ls /usr/include/arm-linux-gnueabihf/curl" to identify that libcurl library is installed.
+	- In case of the folder does not exits. Run command “sudo apt-get update” to update the application list.
+	- Run “sudo apt-get install libcurl3” to install the libcurl3.
+	- Run “sudo apt-get install libcurl4-openssl-dev” to install the development API of libcurl4.
+2) Installation Instructions
+	- Insert the SD card and install Raspbian OS through this website:https://www.raspberrypi.org/downloads/noobs/
+and download "Noobs" image and remember to download ZIP file.
+
+	- For the first time boot, plug in your keyboard, mouse and monitor cable. Then, you disable a display with RPi
+because it will be more convinient and you don't use it in most cases. Furthermore, you also need to know its IP address 
+when using RPi remotely. For more information about NOOBS setup, you can find at: https://www.raspberrypi.org/help/noobs-setup/2/
+	
+	- Disassemble keyboard, mouse and monitor cable and plug them back in your computer.Then, insert USB sound card and microphone 
+	to the Raspberry Pi and connect RPi to a Internet domain by the RJ45 cable. After that, connect to power supply by Micro USB to USB cable. 
+	
+	- Using IP address sent by email to connect to the terminal.
+3) Operating Intructors
+	- After the installation, simply execute "./sound.out" in the project folder.
+	- Open the PUTTY terminal and logging in your IP address you recieved. So you "login as:" pi and enter your password.
+	- Get access to "appdev" folder by "cd appdev/" command. In "appdev", enter "cd appdev1/" command to access to appdev1 folder where all
+	the source code files are put in.
+	- There are many useful commands you need to know to easily get access to those file:
+		+"mkdir": Make a new folder
+		+ "ls -l": show the files of current folder in details 
+		+"cd..": Change to parent folder
+		+"cd $HOME": Change to the root folder of current user
+		+"rm": Delete a file or a number of files/folders
+		+"scp": Copy files from one host to another host
+		+ "tar": make multiple files into one so that we can store them more efficiently.
+		+"cd $HOME":change to the root folder of current user
+		+"cp": duplicate file(s)/folder(s) from one folder to another
+		+"grep": Find information which contains specific key word(s)
+		For more information, you can find at: http://www.circuitbasics.com/useful-raspberry-pi-commands/
+	- Compilling program by typing "make" command
+	- After the installation, simply execute "./sound.out" in the project folder.
+	- Addition, you can use "./sound.out 440" or "./sound.out 1000" to run 
+4) File list (Manifest)
+	- The project contains following files: 
+	--README.md : This file contains information about other files in a directory or archive of computer software. 
+	--makefile : The makefile of this project 
+	--sound.c : The module containing functions about sound processing 
+	--sound.h : The header of sound.c 
+	--screen.c : The module containing functions about screen manipulation 
+	--screen.h : The header of screen.c 
+	--comm.c : The communication module using libcurl 
+	--comm.h : The header file of comm.c 
+	--main.c : This file is the operating file which call all other functions and execute in a typical order.
+	--curltest.c: This file is used to transfer data from or to a server, using common Internet protocol.
+	--sound.php : The server page to receive data. 
+5) Copyleft
+	- This project is cooperated with an instructor: Mr.Gao Chao from Vaasa University of Applied Sciences. I use Raspberry Pi 3 model B which is a device of Vaasa University of Applied Sciences.
+All the source code files are free to use and distribute!
+6) Contact Information
+	Tuan Nguyen,  Departure of Information Technology
+	Vaasa University of Applied Sciences
+	If you have any questions about this project, please feel free to contact me through my email: tuanquangnguyen1710@gmail.com
+7) Credits and Acknowledgements
+	In conclusion, I have learned a lot of knowledge from teacher about how to create a application as well as use linex command. On the other hands, I will learn another lessons from Internet to improve knowledge
+and create more application in the future. 	
+
+	
